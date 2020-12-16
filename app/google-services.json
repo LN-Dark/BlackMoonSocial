@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "125071631156",
+    "project_id": "blackmoonsocial-79e70",
+    "storage_bucket": "blackmoonsocial-79e70.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:125071631156:android:8d0547c314809c073e7b61",
+        "android_client_info": {
+          "package_name": "com.luanegra.blackmoonsocial"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "125071631156-tl43qaemme1suv1l8au3uvg5uuttbaav.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.luanegra.blackmoonsocial",
+            "certificate_hash": "9339111c6fa162816b65ef4bc0c9f0ffc35d1cdc"
+          }
+        },
+        {
+          "client_id": "125071631156-6eqc8n26tm6v346sal95qqhdhpla7q3p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7BedfWHzVnyrf9AEA6tS0XJrIZx6LYDc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "125071631156-6eqc8n26tm6v346sal95qqhdhpla7q3p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
