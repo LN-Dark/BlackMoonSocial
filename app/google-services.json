@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "125071631156",
+    "firebase_url": "https://blackmoonsocial-79e70-default-rtdb.firebaseio.com",
     "project_id": "blackmoonsocial-79e70",
     "storage_bucket": "blackmoonsocial-79e70.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "125071631156-4c38emsvpos6dfk5fs5867dr3eiou8nf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.luanegra.blackmoonsocial",
+            "certificate_hash": "f5014e4ce5d7a89fab771eb9ed9005c3d3bb1ee4"
+          }
+        },
         {
           "client_id": "125071631156-tl43qaemme1suv1l8au3uvg5uuttbaav.apps.googleusercontent.com",
           "client_type": 1,

@@ -56,7 +56,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity, "getString(R.string.errormessage)" + error.message, Toast.LENGTH_LONG).show()
             }
         })
-
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->

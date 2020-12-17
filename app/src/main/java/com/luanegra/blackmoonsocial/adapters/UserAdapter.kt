@@ -22,6 +22,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.luanegra.blackmoonsocial.R
+import com.luanegra.blackmoonsocial.ViewProfileActivity
+import com.luanegra.blackmoonsocial.models.Blocked
 import com.luanegra.blackmoonsocial.models.Users
 import de.hdodenhof.circleimageview.CircleImageView
 import java.io.ByteArrayOutputStream
@@ -81,12 +83,10 @@ class UserAdapter(mContext: Context, mUserList: List<Users>, isChatCheck: Boolea
             dialogimageview.load(user.getprofile())
 
             mDialogView.findViewById<Button>(R.id.perfil_dialog_show).setOnClickListener {
-//                val intent = Intent(mContext, VisitProfileActivity::class.java)
-//                intent.putExtra("reciever_id", user.getUid())
-//
-//                intent.putExtra("resultAUTH", "true")
-//                mContext.startActivity(intent)
-//                mAlertDialog.dismiss()
+                val intent = Intent(mContext, ViewProfileActivity::class.java)
+                intent.putExtra("idUserVisit", user.getUid())
+                mContext.startActivity(intent)
+                mAlertDialog.dismiss()
             }
             var controllerBlock = 0
             val firebaseUser = FirebaseAuth.getInstance().currentUser
@@ -97,26 +97,20 @@ class UserAdapter(mContext: Context, mUserList: List<Users>, isChatCheck: Boolea
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         for (dataSnapshot in snapshot.children) {
-//                            val userID: Blocked? = dataSnapshot.getValue(Blocked::class.java)
-//                            if (userID!!.getuserID() == user.getUid()) {
-//                                controllerBlock = 1
-//                            }
+                            val userID: Blocked? = dataSnapshot.getValue(Blocked::class.java)
+                            if (userID!!.getuserID() == user.getUid()) {
+                                controllerBlock = 1
+                            }
                         }
                         if (controllerBlock == 0) {
-//                            mDialogView.findViewById<Button>(R.id.chat_block).text =
-//                                mContext.getString(
-//                                    R.string.block
-//                                )
+                            mDialogView.findViewById<Button>(R.id.chat_block).text ="Block"
+
                         } else {
-//                            mDialogView.findViewById<Button>(R.id.chat_block).text =
-//                                mContext.getString(
-//                                    R.string.unblock
-//                                )
+                            mDialogView.findViewById<Button>(R.id.chat_block).text = "Unblock"
+
                         }
                     } else {
-//                        mDialogView.findViewById<Button>(R.id.chat_block).text = mContext.getString(
-//                            R.string.block
-//                        )
+                        mDialogView.findViewById<Button>(R.id.chat_block).text = "Block"
                     }
                 }
 
@@ -141,13 +135,13 @@ class UserAdapter(mContext: Context, mUserList: List<Users>, isChatCheck: Boolea
             }
         }
 
-//        if(user.getstatus() == mContext.getString(R.string.online)){
-//            holder.image_online.visibility = View.VISIBLE
-//            holder.image_offline.visibility = View.GONE
-//        }else{
-//            holder.image_online.visibility = View.GONE
-//            holder.image_offline.visibility = View.VISIBLE
-//        }
+        if(user.getstatus() == "online"){
+            holder.image_online.visibility = View.VISIBLE
+            holder.image_offline.visibility = View.GONE
+        }else{
+            holder.image_online.visibility = View.GONE
+            holder.image_offline.visibility = View.VISIBLE
+        }
     }
 
     private fun blockUser(usertoblock: String, username: String){
@@ -160,18 +154,18 @@ class UserAdapter(mContext: Context, mUserList: List<Users>, isChatCheck: Boolea
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     for (dataSnapshot in snapshot.children) {
-//                        val userID: Blocked? = dataSnapshot.getValue(Blocked::class.java)
-//                        if (userID!!.getuserID() == usertoblock) {
-//                            FirebaseDatabase.getInstance().reference.child("BlockedUsers").child(
-//                                firebaseUser.uid
-//                            ).child(userID.getuid()).removeValue()
-//                            controllerBlock = 1
-//                            Toast.makeText(
-//                                mContext,
-//                                mContext.getString(R.string.unblockeduser) + username,
-//                                Toast.LENGTH_LONG
-//                            ).show()
-//                        }
+                        val userID: Blocked? = dataSnapshot.getValue(Blocked::class.java)
+                        if (userID!!.getuserID() == usertoblock) {
+                            FirebaseDatabase.getInstance().reference.child("BlockedUsers").child(
+                                firebaseUser.uid
+                            ).child(userID.getuid()).removeValue()
+                            controllerBlock = 1
+                            Toast.makeText(
+                                mContext,
+                                "Unblocked user " + username,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                     }
                     if (controllerBlock == 0) {
                         val userHashMap = HashMap<String, Any>()
@@ -182,11 +176,11 @@ class UserAdapter(mContext: Context, mUserList: List<Users>, isChatCheck: Boolea
                         FirebaseDatabase.getInstance().reference.child("BlockedUsers").child(
                             firebaseUser.uid
                         ).child(idBlock).updateChildren(userHashMap)
-//                        Toast.makeText(
-//                            mContext,
-//                            mContext.getString(R.string.blockeduser) + username,
-//                            Toast.LENGTH_LONG
-//                        ).show()
+                        Toast.makeText(
+                            mContext,
+                            "Blocked user " + username,
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 } else {
                     val userHashMap = HashMap<String, Any>()
@@ -197,11 +191,11 @@ class UserAdapter(mContext: Context, mUserList: List<Users>, isChatCheck: Boolea
                     FirebaseDatabase.getInstance().reference.child("BlockedUsers").child(
                         firebaseUser.uid
                     ).child(idBlock).updateChildren(userHashMap)
-//                    Toast.makeText(
-//                        mContext,
-//                        mContext.getString(R.string.blockeduser) + username,
-//                        Toast.LENGTH_LONG
-//                    ).show()
+                    Toast.makeText(
+                        mContext,
+                        "Blocked user " + username,
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
 
@@ -211,68 +205,6 @@ class UserAdapter(mContext: Context, mUserList: List<Users>, isChatCheck: Boolea
 
         })
     }
-
-    private fun retrieveLasMessage(
-        uid: String?,
-        txtLastmessage: TextView,
-        recieverUserName: String?
-    ) {
-        lastMsg = "defaultMsg"
-        val firebaseUser = FirebaseAuth.getInstance().currentUser
-        val reference = FirebaseDatabase.getInstance().reference
-        reference.child("Chats").addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for (dataSnapshot in snapshot.children) {
-//                    var chat: Chat? = dataSnapshot.getValue(Chat::class.java)
-//                    if (firebaseUser != null && chat != null) {
-//                        if (chat.getreciever() == firebaseUser.uid && chat.getsender() == uid || chat.getreciever() == uid && chat.getsender() == firebaseUser.uid) {
-//                            if (chat.getsender().equals(firebaseUser.uid)) {
-//                                chat = decryptMessage(chat, 0)
-//                                chat.setmessage(mContext.getString(R.string.me) + chat.getmessage())
-//                            } else {
-//                                chat = decryptMessage(chat, 1)
-//                                chat.setmessage(recieverUserName + ": " + chat.getmessage())
-//                            }
-//                            lastMsg = chat.getmessage()!!
-//                        }
-//                    }
-                }
-                when (lastMsg) {
-//                    mContext.getString(R.string.no_message) -> txtLastmessage.text =
-//                        mContext.getString(
-//                            R.string.no_message
-//                        )
-//                    mContext.getString(R.string.sentyouanimage) -> txtLastmessage.text =
-//                        mContext.getString(
-//                            R.string.image_sent
-//                        )
-                    else -> txtLastmessage.text = lastMsg
-                }
-//                lastMsg = mContext.getString(R.string.defaultmsg)
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-        })
-    }
-
-//    fun decryptMessage(chat: Chat, who: Int): Chat {
-//        if(who == 0){
-//            val sharedPreference =  mContext.getSharedPreferences("RSA_CHAT", Context.MODE_PRIVATE)
-//            chat.setmessage(sharedPreference.getString(chat.getMessageid(), "").toString())
-//        }else{
-//            val sharedPreference =  mContext.getSharedPreferences("RSA_CHAT", Context.MODE_PRIVATE)
-//            val plainText = chat.getmessage()?.let { DecryptGenerator.generateDecrypt(
-//                encryptText = it, privateKey = sharedPreference.getString(
-//                    "privateKey",
-//                    ""
-//                )
-//            ) }
-//            chat.setmessage(plainText!!.toString())
-//        }
-//        return chat
-//    }
 
     override fun getItemCount(): Int {
         return mUserList.size

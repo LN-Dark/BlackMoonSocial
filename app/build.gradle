@@ -1,25 +1,75 @@
+import java.text.SimpleDateFormat
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
 }
+static def buildTime() {
+    def df = new SimpleDateFormat("dd-MM-YY")
+    df.setTimeZone(TimeZone.getTimeZone("UTC"))
+    return df.format(new Date())
+}
 
+static def buildHour() {
+    def df = new SimpleDateFormat("H:mm")
+    df.setTimeZone(TimeZone.getTimeZone("UTC"))
+    return df.format(new Date())
+}
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 android {
+    def versionPropsFile = file('version.properties')
+    def versionBuild
+
+    if (versionPropsFile.canRead()) {
+        Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+        versionBuild = versionProps['VERSION_BUILD'].toInteger()
+    } else {
+        throw new FileNotFoundException("Could not read version.properties!")
+    }
+    ext.autoIncrementBuildNumber = {
+        if (versionPropsFile.canRead()) {
+            Properties versionProps = new Properties()
+            versionProps.load(new FileInputStream(versionPropsFile))
+            versionBuild = versionProps['VERSION_BUILD'].toInteger() + 1
+            versionProps['VERSION_BUILD'] = versionBuild.toString()
+            versionProps.store(versionPropsFile.newWriter(), null)
+        } else {
+            throw new FileNotFoundException("Could not read version.properties!")
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
-
+    signingConfigs {
+        debug {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file('C:\\Users\\pedro\\AndroidStudioProjects\\BlackMoonSocialKeystore.jks')
+            storePassword keystoreProperties['storePassword']
+        }
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file('C:\\Users\\pedro\\AndroidStudioProjects\\BlackMoonSocialKeystore.jks')
+            storePassword keystoreProperties['storePassword']
+        }
+    }
     defaultConfig {
         applicationId "com.luanegra.blackmoonsocial"
         minSdkVersion 28
         targetSdkVersion 30
         versionCode 1
-        versionName "1.0"
-
+        versionName "1.0" + versionBuild
+        setProperty("archivesBaseName", "BlackMoonSocial_" + buildTime())
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.release
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

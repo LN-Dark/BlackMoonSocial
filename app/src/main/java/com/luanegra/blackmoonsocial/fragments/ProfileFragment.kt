@@ -163,7 +163,7 @@ class ProfileFragment : Fragment() {
     fun getFollowing(){
         FirebaseDatabase.getInstance().reference.child("users").child(firebaseUser!!.uid).child("following").addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                var followeersCount = 0
+                var followeersCount = -1
                 for (datasnapShot in snapshot.children){
                     followeersCount += 1
                 }

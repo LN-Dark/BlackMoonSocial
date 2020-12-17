@@ -110,18 +110,19 @@ class WelcomeActivity : AppCompatActivity() {
         mAuth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 firebaseUserId = mAuth.currentUser!!.uid
-                refUsers = FirebaseDatabase.getInstance().reference.child("users").child(
-                    firebaseUserId
-                )
+                refUsers = FirebaseDatabase.getInstance().reference.child("users").child(firebaseUserId)
+                var followingkey = refUsers.push().key
                 val userHashMap = HashMap<String, Any>()
                 userHashMap["uid"] = firebaseUserId
                 userHashMap["username"] = account.displayName.toString()
                 userHashMap["email"] = account.email.toString()
                 userHashMap["profile"] = account.photoUrl.toString()
-                userHashMap["cover"] = "https://img1.goodfon.com/original/1920x1080/b/6d/material-desing-color-7228.jpg"
+                userHashMap["cover"] = "https://firebasestorage.googleapis.com/v0/b/blackmoonsocial-79e70.appspot.com/o/coverdefault.jpg?alt=media&token=bc3f2111-f92e-43c4-87ca-994bb418f305"
                 userHashMap["status"] = "offline"
                 userHashMap["search"] = account.displayName.toString().toLowerCase(Locale.ROOT)
                 userHashMap["aboutMe"] = "About me"
+                userHashMap["following/$followingkey/followingID"] = firebaseUserId
+                userHashMap["following/$followingkey/uid"] = followingkey!!
                 val gerarChaves = GenerateKeys()
                 var listKeys: List<String>?
                 listKeys = ArrayList()

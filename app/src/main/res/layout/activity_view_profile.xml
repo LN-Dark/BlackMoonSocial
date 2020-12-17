@@ -7,15 +7,51 @@
     android:background="@color/colorAccent"
     tools:context=".fragments.ProfileFragment">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar_layout_visit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.RSAChat.AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_visit"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/Theme.RSAChat.PopupOverlay">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image_visit"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:elevation="2dp"
+                android:outlineProvider="bounds"
+                android:src="@drawable/ic_person_24px"
+                android:tint="@android:color/white" />
+
+            <TextView
+                android:id="@+id/user_name_visit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="26dp"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_profile"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:backgroundTint="@color/colorPrimaryVariant"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/appbar_layout_visit">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -65,6 +101,52 @@
 
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout">
+
+        <TextView
+            android:id="@+id/following_profile_visiti"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:drawablePadding="2dp"
+            android:text="Following 0"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            app:drawableEndCompat="@drawable/ic_following" />
+
+        <TextView
+            android:id="@+id/posts_profile_visiti"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:drawablePadding="2dp"
+            android:text="0 Posts"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            app:drawableEndCompat="@drawable/ic_posts" />
+
+        <TextView
+            android:id="@+id/follow_profile_visiti"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:drawablePadding="2dp"
+            android:text="Followed by 0"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            app:drawableEndCompat="@drawable/ic_follow" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
