@@ -31,6 +31,7 @@ class PostsAdapter(mContext: Context, mPostsList: List<Posts>) : RecyclerView.Ad
         var user_profileimage_card_home: CircleImageView
         var txt_username_card_home: TextView
         var txt_date_card_home: TextView
+        var description_post_home: TextView
         var img_card_home: ImageView
         var txt_likes_home_card: TextView
         var img_likes_card_home: ImageView
@@ -46,6 +47,7 @@ class PostsAdapter(mContext: Context, mPostsList: List<Posts>) : RecyclerView.Ad
             img_likes_card_home = itemView.findViewById(R.id.img_likes_card_home)
             img_coment_card_home = itemView.findViewById(R.id.img_coment_card_home)
             img_sendmessage_card_home = itemView.findViewById(R.id.img_sendmessage_card_home)
+            description_post_home = itemView.findViewById(R.id.description_post_home)
         }
     }
 
@@ -70,6 +72,7 @@ class PostsAdapter(mContext: Context, mPostsList: List<Posts>) : RecyclerView.Ad
         }
         holder.txt_date_card_home.text = post.getdate()
         holder.img_card_home.load(post.getphotoURL())
+        holder.description_post_home.text = post.getdescription()
         FirebaseDatabase.getInstance().reference.child("users").child(post.getuserID()).addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val user: Users? = snapshot.getValue(Users::class.java)

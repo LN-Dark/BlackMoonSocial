@@ -1,5 +1,6 @@
 package com.luanegra.blackmoonsocial
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -43,6 +44,14 @@ class ViewProfileActivity : AppCompatActivity() {
         val profile_image_visit: CircleImageView = findViewById(R.id.profile_image_visit)
         setSupportActionBar(toolbar)
         supportActionBar!!.title = ""
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.putExtra("resultAUTH", "true")
+            startActivity(intent)
+            finish()
+        }
         firebaseUser = FirebaseAuth.getInstance().currentUser
         val cover_profile_visit: ImageView = findViewById(R.id.cover_profile_visit)
         val profileimage_profile_visit: CircleImageView = findViewById(R.id.profileimage_profile_visit)
@@ -118,14 +127,17 @@ class ViewProfileActivity : AppCompatActivity() {
         FirebaseDatabase.getInstance().reference.child("users").child(firebaseUser!!.uid).child("following").child(controlFollowID).removeValue()
         follow_visit!!.text = "Follow"
         controlFollow = false
+        followeersCount -= 1
+        follow_profile_visiti!!.text = "Followed by $followeersCount"
         controlFollowID = ""
 
     }
 
+    var followeersCount = 0
     fun getFollowers(){
         FirebaseDatabase.getInstance().reference.child("users").addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                var followeersCount = 0
+                followeersCount = 0
                 for (datasnapShot in snapshot.children){
                     val user: Users? = datasnapShot.getValue(Users::class.java)
                     if(user!!.getUid() != idUserVisit){
@@ -158,7 +170,7 @@ class ViewProfileActivity : AppCompatActivity() {
     fun getFollowing(){
         FirebaseDatabase.getInstance().reference.child("users").child(idUserVisit!!).child("following").addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                var followeersCount = 0
+                var followeersCount = -1
                 for (datasnapShot in snapshot.children){
                     followeersCount += 1
                 }

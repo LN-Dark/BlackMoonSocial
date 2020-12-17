@@ -97,8 +97,7 @@ class ProfileFragment : Fragment() {
                         before: Int,
                         count: Int
                     ) {
-                        saveAboutme(s.toString())
-                        aboutme_profile.setSelection(aboutme_profile.text!!.length)
+
                     }
 
                     override fun afterTextChanged(s: Editable?) {
@@ -272,7 +271,7 @@ class ProfileFragment : Fragment() {
 
             lifecycleScope.launch {
                 val compressedImageFile = Compressor.compress(requireView().context, filetoup){
-                    quality(25)
+                    quality(75)
                     format(Bitmap.CompressFormat.JPEG)
                 }
                 if(compressedImageFile.length() < 30000000){

@@ -35,10 +35,20 @@
                 android:textStyle="bold"/>
 
             <ImageView
+                android:id="@+id/img_add_main"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="26dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_add_circle_outline_24px"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"/>
+
+            <ImageView
                 android:id="@+id/img_messages_main"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:textSize="18sp"
                 android:layout_marginStart="26dp"
                 android:layout_gravity="end"
                 android:layout_marginEnd="8dp"

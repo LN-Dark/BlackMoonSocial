@@ -1,8 +1,10 @@
 package com.luanegra.blackmoonsocial
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.get
@@ -23,6 +25,9 @@ import de.hdodenhof.circleimageview.CircleImageView
 class MainActivity : AppCompatActivity() {
     var firebaseUser: FirebaseUser?= null
     private var refUsers: DatabaseReference? = null
+    private var usernameCurrent: String = ""
+    private var photoUrlCurrent: String = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar_main)
         val user_name: TextView = findViewById(R.id.user_name)
         val profile_image: CircleImageView = findViewById(R.id.profile_image)
+        val img_add_main: ImageView = findViewById(R.id.img_add_main)
         setSupportActionBar(toolbar)
         supportActionBar!!.title = ""
         val bottomNav : BottomNavigationView = findViewById(R.id.bottomNav)
@@ -48,7 +54,14 @@ class MainActivity : AppCompatActivity() {
                     val user: Users? = snapshot.getValue(Users::class.java)
                     user_name.text = user!!.getusername()
                     profile_image.load(user.getprofile())
-
+                    img_add_main.setOnClickListener {
+                        val intent = Intent(this@MainActivity, NewPostActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        intent.putExtra("user_name_newpost", user.getusername())
+                        intent.putExtra("profile_image_newpost", user.getprofile())
+                        startActivity(intent)
+                        finish()
+                    }
                 }
             }
 
