@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:background="@drawable/round_corners_chat_right"
+    android:layout_margin="8dp"
+    android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image_coment"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+        android:src="@drawable/ic_person_24px">
+    </de.hdodenhof.circleimageview.CircleImageView>
+
+    <TextView
+        android:id="@+id/username_coment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/profile_image_coment"
+        android:layout_marginStart="6dp"
+        android:text="Coment"
+        android:textColor="@color/colorWhite"
+        android:layout_alignParentEnd="true"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:padding="8dp"/>
+
+    <TextView
+        android:id="@+id/coment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/profile_image_coment"
+        android:layout_marginStart="6dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/username_coment"
+        android:text="Coment"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        android:padding="8dp"/>
+
+    <TextView
+        android:id="@+id/likesComent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/profile_image_coment"
+        android:layout_marginStart="6dp"
+        android:layout_below="@+id/coment"
+        android:text="0"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_unheart_outline"
+        android:layout_below="@+id/coment"
+        android:layout_toEndOf="@id/likesComent"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginStart="6dp">
+    </ImageView>
+
+    <TextView
+        android:id="@+id/coment_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/image_view"
+        android:layout_marginStart="6dp"
+        android:text="date"
+        android:layout_marginTop="6dp"
+        android:layout_alignParentEnd="true"
+        android:gravity="end"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="6dp"
+        android:textColor="@color/colorGray"
+        android:textSize="14sp"
+        android:layout_below="@+id/coment">
+
+    </TextView>
+
+</RelativeLayout>

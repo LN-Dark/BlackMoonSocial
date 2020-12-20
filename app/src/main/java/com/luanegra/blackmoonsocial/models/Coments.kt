@@ -6,15 +6,17 @@ class Coments {
     private var coment: String = ""
     private var date: String = ""
     private var postID: String = ""
+    private var likes: Int = 0
 
     constructor()
 
-    constructor(uID: String, userComentID: String, coment: String, date: String, postID: String) {
+    constructor(uID: String, userComentID: String, coment: String, date: String, postID: String, likes: Int) {
         this.uID = uID
         this.userComentID = userComentID
         this.coment = coment
         this.date = date
         this.postID = postID
+        this.likes = likes
     }
 
     fun getuID(): String {
@@ -55,6 +57,14 @@ class Coments {
 
     fun setpostID(postID: String){
         this.postID = postID
+    }
+
+    fun getlikes(): Int {
+        return likes
+    }
+
+    fun setlikes(likes: Int){
+        this.likes = likes
     }
 
 }

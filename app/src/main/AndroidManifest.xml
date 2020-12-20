@@ -9,8 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BlackMoonSocial">
-        <activity android:name=".NewPostActivity"></activity>
+        <activity android:name=".ChatsActivity"/>
+        <activity android:name=".ComentsActivity" />
+        <activity android:name=".MessageChatActivity"/>
+        <activity android:name=".NewPostActivity" />
         <activity android:name=".ViewProfileActivity" />
+        <activity android:name=".ViewFullImageActivity"/>
         <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

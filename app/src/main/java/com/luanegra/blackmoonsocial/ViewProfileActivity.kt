@@ -48,7 +48,6 @@ class ViewProfileActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-            intent.putExtra("resultAUTH", "true")
             startActivity(intent)
             finish()
         }

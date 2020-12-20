@@ -271,7 +271,7 @@ class ProfileFragment : Fragment() {
 
             lifecycleScope.launch {
                 val compressedImageFile = Compressor.compress(requireView().context, filetoup){
-                    quality(75)
+                    quality(25)
                     format(Bitmap.CompressFormat.JPEG)
                 }
                 if(compressedImageFile.length() < 30000000){

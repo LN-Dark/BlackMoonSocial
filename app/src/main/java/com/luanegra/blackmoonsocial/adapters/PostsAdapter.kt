@@ -1,6 +1,7 @@
 package com.luanegra.blackmoonsocial.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.luanegra.blackmoonsocial.ComentsActivity
+import com.luanegra.blackmoonsocial.MainActivity
+import com.luanegra.blackmoonsocial.MessageChatActivity
 import com.luanegra.blackmoonsocial.R
+import com.luanegra.blackmoonsocial.models.Coments
 import com.luanegra.blackmoonsocial.models.Likes
 import com.luanegra.blackmoonsocial.models.Posts
 import com.luanegra.blackmoonsocial.models.Users
@@ -52,7 +57,7 @@ class PostsAdapter(mContext: Context, mPostsList: List<Posts>) : RecyclerView.Ad
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        var view: View?
+        val view: View?
         view = LayoutInflater.from(mContext).inflate(
                 R.layout.home_item_layout,
                 parent,
@@ -78,6 +83,14 @@ class PostsAdapter(mContext: Context, mPostsList: List<Posts>) : RecyclerView.Ad
                 val user: Users? = snapshot.getValue(Users::class.java)
                 holder.txt_username_card_home.text = user!!.getusername()
                 holder.user_profileimage_card_home.load(user.getprofile())
+                holder.img_sendmessage_card_home.setOnClickListener {
+                    val intent = Intent(mContext, MessageChatActivity::class.java)
+                    intent.putExtra("reciever_id", user.getUid())
+                    intent.putExtra("reciever_profile", user.getprofile())
+                    intent.putExtra("reciever_username", user.getusername())
+                    intent.putExtra("publicKeyVisit", user.getpublicKey())
+                    mContext.startActivity(intent)
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -128,11 +141,10 @@ class PostsAdapter(mContext: Context, mPostsList: List<Posts>) : RecyclerView.Ad
         })
 
         holder.img_coment_card_home.setOnClickListener {
-
-        }
-
-        holder.img_sendmessage_card_home.setOnClickListener {
-
+            val intent = Intent(mContext, ComentsActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.putExtra("postID", post.getUid())
+            mContext.startActivity(intent)
         }
 
         holder.img_likes_card_home.setOnClickListener {

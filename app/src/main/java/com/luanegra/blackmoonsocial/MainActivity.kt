@@ -25,9 +25,6 @@ import de.hdodenhof.circleimageview.CircleImageView
 class MainActivity : AppCompatActivity() {
     var firebaseUser: FirebaseUser?= null
     private var refUsers: DatabaseReference? = null
-    private var usernameCurrent: String = ""
-    private var photoUrlCurrent: String = ""
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         val user_name: TextView = findViewById(R.id.user_name)
         val profile_image: CircleImageView = findViewById(R.id.profile_image)
         val img_add_main: ImageView = findViewById(R.id.img_add_main)
+        val img_messages_main: ImageView = findViewById(R.id.img_messages_main)
         setSupportActionBar(toolbar)
         supportActionBar!!.title = ""
         val bottomNav : BottomNavigationView = findViewById(R.id.bottomNav)
@@ -47,6 +45,12 @@ class MainActivity : AppCompatActivity() {
             val fragment = HomeFragment()
             supportFragmentManager.beginTransaction().replace(R.id.container, fragment, fragment.javaClass.getSimpleName())
                 .commit()
+        }
+        img_messages_main.setOnClickListener {
+            val intent = Intent(this@MainActivity, ChatsActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
         }
         refUsers!!.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -79,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                     .commit()
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.menu_notification -> {
+            R.id.menu_posts -> {
                 val fragment = NotificationsFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.container, fragment, fragment.javaClass.getSimpleName())
                     .commit()

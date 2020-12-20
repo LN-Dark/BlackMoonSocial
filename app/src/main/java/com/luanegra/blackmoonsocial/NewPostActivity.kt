@@ -1,15 +1,17 @@
 package com.luanegra.blackmoonsocial
 
+import android.R.attr.bitmap
+import android.R.attr.path
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.google.android.gms.tasks.Continuation
@@ -21,8 +23,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
-import com.luanegra.blackmoonsocial.models.Coments
-import com.luanegra.blackmoonsocial.models.Likes
 import com.shashank.sony.fancytoastlib.FancyToast
 import de.hdodenhof.circleimageview.CircleImageView
 import id.zelory.compressor.Compressor
@@ -34,8 +34,10 @@ import pl.aprilapps.easyphotopicker.EasyImage
 import pl.aprilapps.easyphotopicker.MediaFile
 import pl.aprilapps.easyphotopicker.MediaSource
 import java.io.File
+import java.io.FileOutputStream
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+
 
 class NewPostActivity : AppCompatActivity() {
     private var firebaseUser: FirebaseUser?= null
@@ -96,15 +98,20 @@ class NewPostActivity : AppCompatActivity() {
                 data,
                 this,
                 object : DefaultCallback() {
-                    override fun onMediaFilesPicked(imageFiles: Array<MediaFile>, source: MediaSource) {
+                    override fun onMediaFilesPicked(
+                        imageFiles: Array<MediaFile>,
+                        source: MediaSource
+                    ) {
                         PhotoFile = imageFiles[0].file
                         img_new_post!!.load(imageFiles[0].file)
                     }
 
                     override fun onImagePickerError(error: Throwable, source: MediaSource) {
-                        FancyToast.makeText(this@NewPostActivity,error.message,
+                        FancyToast.makeText(
+                            this@NewPostActivity, error.message,
                             FancyToast.LENGTH_LONG,
-                            FancyToast.WARNING,true)
+                            FancyToast.WARNING, true
+                        )
                     }
 
                     override fun onCanceled(source: MediaSource) {
@@ -118,14 +125,15 @@ class NewPostActivity : AppCompatActivity() {
        if (txt_description_new_post!!.text.toString() != ""){
            if (PhotoFile != null){
                val loadingBar = ProgressDialog(this)
-               val fileRef = storageRef!!.child(System.currentTimeMillis().toString() + ".jpg"
+               val fileRef = storageRef!!.child(
+                   System.currentTimeMillis().toString() + ".jpg"
                )
                lifecycleScope.launch {
                    val compressedImageFile = Compressor.compress(this@NewPostActivity, PhotoFile!!){
-                       quality(25)
+                       quality(90)
                        format(Bitmap.CompressFormat.JPEG)
                    }
-                   if(compressedImageFile.length() < 30000000){
+                   if(compressedImageFile!!.length() < 30000000){
                        loadingBar.setMessage("Please wait")
                        loadingBar.setCancelable(false)
                        loadingBar.show()
@@ -150,9 +158,14 @@ class NewPostActivity : AppCompatActivity() {
                                map["photoURL"] = downloadUrl.toString()
                                map["date"] = formatted
                                map["description"] = txt_description_new_post!!.text.toString()
-                               FirebaseDatabase.getInstance().reference.child("Posts").child(newPostKey.toString()).setValue(map).addOnCompleteListener {
+                               FirebaseDatabase.getInstance().reference.child("Posts").child(
+                                   newPostKey.toString()
+                               ).setValue(map).addOnCompleteListener {
                                    loadingBar.dismiss()
-                                   val intent = Intent(this@NewPostActivity, MainActivity::class.java)
+                                   val intent = Intent(
+                                       this@NewPostActivity,
+                                       MainActivity::class.java
+                                   )
                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                                    intent.putExtra("resultAUTH", "true")
                                    startActivity(intent)
@@ -161,14 +174,32 @@ class NewPostActivity : AppCompatActivity() {
                            }
                        }
                    }else{
-                       FancyToast.makeText(this@NewPostActivity,"Image is too big, please select another!",FancyToast.LENGTH_LONG,FancyToast.WARNING,true)
+                       FancyToast.makeText(
+                           this@NewPostActivity,
+                           "Image is too big, please select another!",
+                           FancyToast.LENGTH_LONG,
+                           FancyToast.WARNING,
+                           true
+                       )
                    }
                }
            }else{
-               FancyToast.makeText(this@NewPostActivity,"Select an image first!",FancyToast.LENGTH_LONG,FancyToast.WARNING,true)
+               FancyToast.makeText(
+                   this@NewPostActivity,
+                   "Select an image first!",
+                   FancyToast.LENGTH_LONG,
+                   FancyToast.WARNING,
+                   true
+               )
            }
        }else{
-           FancyToast.makeText(this@NewPostActivity,"Write a description first!",FancyToast.LENGTH_LONG,FancyToast.WARNING,true)
+           FancyToast.makeText(
+               this@NewPostActivity,
+               "Write a description first!",
+               FancyToast.LENGTH_LONG,
+               FancyToast.WARNING,
+               true
+           )
        }
     }
 }

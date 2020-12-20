@@ -95,15 +95,24 @@ class HomeFragment : Fragment() {
                     (listaLikes as ArrayList).add(like!!)
                 }
                 post.setlikes(listaLikes)
-                if (!postsList!!.contains(post)){
-                    (postsList as ArrayList).add(post)
-                }
-                postsAdapter!!.notifyDataSetChanged()
+                reArrangeArray(post)
             }
 
             override fun onCancelled(error: DatabaseError) {
 
             }
         })
+    }
+
+    fun reArrangeArray(post: Posts){
+        if (!postsList!!.contains(post)){
+            (postsList as ArrayList).reverse()
+            (postsList as ArrayList).add(post)
+            (postsList as ArrayList).reverse()
+            postsAdapter!!.notifyDataSetChanged()
+        }else{
+            postsList!!.get(postsList!!.indexOf(post)).setlikes(post.getlikes())
+            postsAdapter!!.notifyDataSetChanged()
+        }
     }
 }
